@@ -1,208 +1,233 @@
 "use client"
 
 import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { X } from "lucide-react"
+import { X, Upload } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
-export function CareerModal({ isOpen, onClose, jobTitle }) {
+export function CareerModal({ isOpen, onClose, job }) {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
-    qualification: "",
-    place: "",
     message: "",
+    cv: null,
   })
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
 
-  const handleChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
+    setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = async (e) => {
+  const handleFileChange = (e) => {
+    if (e.target.files) {
+      setFormData((prev) => ({ ...prev, cv: e.target.files[0] }))
+    }
+  }
+
+  const handleSubmit = (e) => {
     e.preventDefault()
-    setIsSubmitting(true)
-
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
     console.log("Form submitted:", formData)
-    setIsSubmitting(false)
-    setFormData({
-      name: "",
-      phone: "",
-      email: "",
-      qualification: "",
-      place: "",
-      message: "",
-    })
-    onClose()
+    setSubmitted(true)
+    setTimeout(() => {
+      onClose()
+      setSubmitted(false)
+      setFormData({ name: "", phone: "", email: "", message: "", cv: null })
+    }, 2000)
   }
+
+  if (!isOpen || !job) return null
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-lg max-h-[90vh] overflow-y-auto w-full max-w-6xl">
+        <div className="sticky top-0 bg-white border-b border-border flex items-center justify-between p-4 md:p-6">
+          <h2 className="text-xl md:text-2xl font-bold text-[#293E52]">{job.title}</h2>
+          <button
             onClick={onClose}
-            className="fixed inset-0 bg-black/50 z-40"
-          />
-
-          {/* Modal */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            className="p-1 hover:bg-gray-100 rounded-md transition-colors"
+            aria-label="Close modal"
           >
-            <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              {/* Header */}
-              <div className="sticky top-0 bg-white border-b border-border p-6 flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-[#293E52]">Apply for {jobTitle}</h2>
-                <button
-                  onClick={onClose}
-                  className="p-1 hover:bg-gray-100 rounded-full transition-colors"
-                  aria-label="Close modal"
-                >
-                  <X className="w-6 h-6 text-[#293E52]" />
-                </button>
+            <X className="w-6 h-6" />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 p-4 md:p-6">
+          <div className="space-y-6">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">Job ID</p>
+              <p className="text-lg font-semibold text-[#293E52]">{job.jobId}</p>
+            </div>
+
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">Job Type</p>
+              <p className="text-lg font-semibold text-[#293E52]">{job.type}</p>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold text-[#293E52] mb-2">Job Description</h3>
+              <p className="text-sm text-[#293E52] leading-relaxed">{job.description}</p>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold text-[#293E52] mb-3">Responsibilities</h3>
+              <ul className="space-y-2">
+                {job.responsibilities.map((responsibility, idx) => (
+                  <li key={idx} className="flex gap-3 text-sm text-[#293E52]">
+                    <span className="text-[#329ACD] font-bold flex-shrink-0">•</span>
+                    <span>{responsibility}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold text-[#293E52] mb-3">Required Skills</h3>
+              <ul className="space-y-2">
+                {job.skills.map((skill, idx) => (
+                  <li key={idx} className="flex gap-3 text-sm text-[#293E52]">
+                    <span className="text-[#3AB257] font-bold flex-shrink-0">•</span>
+                    <span>{skill}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3 pt-4 border-t border-border">
+              <div>
+                <p className="text-xs font-medium text-muted-foreground">Level</p>
+                <p className="text-sm font-semibold text-[#293E52]">{job.level}</p>
               </div>
+              <div>
+                <p className="text-xs font-medium text-muted-foreground">Salary</p>
+                <p className="text-sm font-semibold text-[#293E52]">{job.salary}</p>
+              </div>
+              <div>
+                <p className="text-xs font-medium text-muted-foreground">Location</p>
+                <p className="text-sm font-semibold text-[#293E52]">{job.location}</p>
+              </div>
+            </div>
+          </div>
 
-              {/* Form */}
-              <form onSubmit={handleSubmit} className="p-6 space-y-6">
-                {/* Name and Phone - 2 columns on desktop, 1 on mobile */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-[#293E52] mb-2">
-                      Name <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#329ACD] bg-white text-[#293E52]"
-                      placeholder="Enter your name"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-[#293E52] mb-2">
-                      Phone Number <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#329ACD] bg-white text-[#293E52]"
-                      placeholder="Enter your phone number"
-                    />
-                  </div>
+          <div className="space-y-4">
+            {submitted ? (
+              <div className="flex h-full min-h-96 flex-col items-center justify-center text-center">
+                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+                  <svg className="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
                 </div>
-
-                {/* Email and Qualification - 2 columns on desktop, 1 on mobile */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-[#293E52] mb-2">
-                      Email ID <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#329ACD] bg-white text-[#293E52]"
-                      placeholder="Enter your email"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="qualification" className="block text-sm font-medium text-[#293E52] mb-2">
-                      Qualification <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="qualification"
-                      name="qualification"
-                      value={formData.qualification}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#329ACD] bg-white text-[#293E52]"
-                      placeholder="Enter your qualification"
-                    />
-                  </div>
-                </div>
-
-                {/* Place - Full width */}
+                <p className="mb-2 text-lg font-semibold text-[#293E52]">Application Submitted!</p>
+                <p className="text-sm text-muted-foreground">We will review your application soon.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label htmlFor="place" className="block text-sm font-medium text-[#293E52] mb-2">
-                    Place <span className="text-red-500">*</span>
+                  <label htmlFor="name" className="mb-1 block text-sm font-medium text-[#293E52]">
+                    Full Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
-                    id="place"
-                    name="place"
-                    value={formData.place}
-                    onChange={handleChange}
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    placeholder=""
                     required
-                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#329ACD] bg-white text-[#293E52]"
-                    placeholder="Enter your place"
+                    className="w-full rounded-lg border border-border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#329ACD]"
                   />
                 </div>
 
-                {/* Message - Full width */}
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-[#293E52] mb-2">
+                  <label htmlFor="phone" className="mb-1 block text-sm font-medium text-[#293E52]">
+                    Phone Number <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    placeholder=""
+                    required
+                    className="w-full rounded-lg border border-border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#329ACD]"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="email" className="mb-1 block text-sm font-medium text-[#293E52]">
+                    Email Address <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder=""
+                    required
+                    className="w-full rounded-lg border border-border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#329ACD]"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="mb-1 block text-sm font-medium text-[#293E52]">
                     Message
                   </label>
                   <textarea
                     id="message"
                     name="message"
                     value={formData.message}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
+                    placeholder=""
                     rows={4}
-                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#329ACD] bg-white text-[#293E52] resize-none"
-                    placeholder="Enter your message (optional)"
+                    className="w-full resize-none rounded-lg border border-border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#329ACD]"
                   />
                 </div>
 
-                {/* Buttons */}
-                <div className="flex gap-4 pt-4">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="flex-1 bg-gradient-to-r from-[#329ACD] to-[#3AB257] text-white font-semibold py-2 px-4 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
-                  >
-                    {isSubmitting ? "Submitting..." : "Submit"}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={onClose}
-                    className="flex-1 border border-border text-[#293E52] font-semibold py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors"
-                  >
-                    Close
-                  </button>
+                <div>
+                  <label htmlFor="cv" className="mb-2 block text-sm font-medium text-[#293E52]">
+                    Upload CV <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="file"
+                      id="cv"
+                      name="cv"
+                      onChange={handleFileChange}
+                      accept=".pdf,.doc,.docx"
+                      required
+                      className="hidden"
+                    />
+                    <label
+                      htmlFor="cv"
+                      className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-dashed border-[#329ACD] px-4 py-3 transition-colors hover:bg-blue-50"
+                    >
+                      <Upload className="h-5 w-5 text-[#329ACD]" />
+                      <span className="text-sm font-medium text-[#329ACD]">
+                        {formData.cv ? formData.cv.name : "Upload CV file"}
+                      </span>
+                    </label>
+                  </div>
+                  <p className="mt-1 text-xs text-muted-foreground">Supported formats: PDF</p>
                 </div>
+
+                <div className="rounded-lg bg-blue-50 p-4">
+                  <p className="text-xs leading-relaxed text-[#293E52]">{job.additionalInfo}</p>
+                </div>
+
+                <Button
+                  type="submit"
+                  className="w-full rounded-lg bg-gradient-to-r from-[#329ACD] to-[#3AB257] py-2 font-semibold text-white transition-opacity hover:opacity-90"
+                >
+                  Apply Now
+                </Button>
               </form>
-            </div>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }

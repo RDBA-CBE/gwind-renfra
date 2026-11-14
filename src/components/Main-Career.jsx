@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { axiosGet } from "@/lib/api";
 import { CareerCard } from "./Career-Card";
-import JobDetailsPage from "@/app/career-details/page";
 
 
 export default function MainCareerSection() {
@@ -104,9 +103,9 @@ export default function MainCareerSection() {
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {jobs.map((job) => (
+          {/* {jobs.map((job) => (
             <CareerCard key={job.id} job={job} />
-          ))}
+          ))} */}
         </div>
             
       </div>
