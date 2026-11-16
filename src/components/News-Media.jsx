@@ -64,7 +64,7 @@ const newsData = [
     id: 1,
     date: "May 04, 2025",
     title:
-      "Speed Team Group’s Ongoing Commitment to Employee Welfare",
+     "Ongoing Commitment to Employee Welfare",
     image: "/images/media-01.png",
   },
   {

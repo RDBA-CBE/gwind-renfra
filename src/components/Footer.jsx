@@ -184,6 +184,10 @@ export default function Footer() {
                     <a href="tel:+917094488909" className="text-gray-400 text-sm ">
                       +91 70944 88912
                     </a>{" "}
+                    <br />
+                    <a href="tel:+918012525120" className="text-gray-400 text-sm ">
+                     +91 80125 25120
+                    </a>{" "}
                   </div>
                 </div>
 

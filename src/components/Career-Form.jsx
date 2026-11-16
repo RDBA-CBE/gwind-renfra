@@ -113,7 +113,7 @@ ${form.brief_summary}
         {
           from_name: form.candidate_name,
           reply_to: form.mail_id,
-          to_email: "info@renfraenergy.com",
+          to_email: "info@gwind.in",
           subject: `Career Application – ${form.candidate_name} | ${form.seeking_position}`,
           message,
         },

@@ -65,12 +65,13 @@ export default function StatsSection() {
 
           {showMore && (
             <>
-              <p className="text-[#293E52] leading-relaxed mb-4 text-sm sm:text-sm md:text-base lg:text-base">
+              {/* <p className="text-[#293E52] leading-relaxed mb-4 text-sm sm:text-sm md:text-base lg:text-base">
                 GWind was acquired by Speed Team Group of Companies in 2017, a leader in the renewable energy services
                 space. This strategic acquisition strengthened GWind’s technical capabilities, workforce expertise, and
                 resource pool, enabling us to expand our portfolio from basic turbine servicing to comprehensive O&M
                 contracts, emergency maintenance, advanced inspections, and major component replacements.
-              </p>
+              </p> */}
+               <p className="text-[#293E52] leading-relaxed mb-4 text-sm sm:text-sm md:text-base lg:text-base">In 2017, GWind underwent a strategic acquisition that significantly strengthened its position in the renewable energy services sector. This milestone enhanced our technical capabilities, workforce expertise, and operational resources, enabling us to expand from basic wind turbine servicing to comprehensive Operations & Maintenance (O&M) contracts, emergency maintenance, advanced inspections, and major component replacements.</p>
               <p className="text-[#293E52] leading-relaxed mb-4 text-sm sm:text-sm md:text-base lg:text-base">
                 Today, GWind is a trusted partner for wind farm owners and operators who seek specialized,
                 contract-driven services that ensure consistent wind turbine performance and optimized energy

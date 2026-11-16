@@ -4,8 +4,6 @@
 import { useState } from "react"
 import Image from "next/image"
 
-
-
 const tabsData = [
   {
     id: "md-message",
@@ -23,7 +21,7 @@ const tabsData = [
       },
       {
         content:
-          "Our team of skilled technicians and engineers works tirelessly to ensure every turbine under our care operates smoothly and efficiently, maximizing energy production and minimizing downtime. We take pride in being a vital part of the global effort to transition to cleaner, renewable power sources. This is where GWind India, a part of Speed Team group of companies is creating a breakthrough in the market. At GWind, we've pioneered a safer, faster, and more cost-effective approach to complex wind turbine maintenance.",
+          "Our team of skilled technicians and engineers works tirelessly to ensure every turbine under our care operates smoothly and efficiently, maximizing energy production and minimizing downtime. We take pride in being a vital part of the global effort to transition to cleaner, renewable power sources. This is where GWind India, a part of companies is creating a breakthrough in the market. At GWind, we've pioneered a safer, faster, and more cost-effective approach to complex wind turbine maintenance.",
       },
        {
         content:

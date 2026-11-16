@@ -9,7 +9,7 @@ export default function OtherStockSection() {
       icon: "/images/network.svg",
       title: "In Network",
       content:
-        "As part of Speed Team Group, GWind utilizes its sister companies’ expertise to source spare parts at not only on time but also at preferential pricing and delivery terms.",
+        "As part of GWind utilizes its sister companies’ expertise to source spare parts at not only on time but also at preferential pricing and delivery terms.",
       link: "/innetwork-inventory", // 🔗 Link 1
     },
     {

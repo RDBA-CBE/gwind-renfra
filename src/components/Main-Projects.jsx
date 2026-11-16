@@ -2,33 +2,44 @@
 "use client";
 import { useEffect, useState } from "react";
 import { axiosGet, BASE_URL } from "@/lib/api";
+import InteractiveProjectsMap from "@/components/InteractiveProjectsMap";
 
 export default function ProjectsSection() {
   const [projectData, setProjectData] = useState([]);
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [noData, setNoData] = useState(false);
-
-  const fetchProject = async () => {
-    try {
-      setLoading(true);
-
-      const res = await axiosGet.get(
-        `masters/projects/get/?web_sts=1`
-      );
-
-      const data = res.data?.data || [];
-      setProjectData(data);
-      setNoData(data.length === 0);
-    } catch (err) {
-      console.error("Project Error:", err);
-      setNoData(true);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const completedProjects = projectData.filter(
+    (project) => project.project_status !== 2
+  );
+  const ongoingProjects = projectData.filter(
+    (project) => project.project_status === 2
+  );
 
   useEffect(() => {
-    fetchProject();
+    let active = true;
+
+    axiosGet
+      .get("masters/projects/get/?web_sts=1")
+      .then((res) => {
+        if (!active) return;
+
+        const data = res.data?.data || [];
+        setProjectData(data);
+        setNoData(data.length === 0);
+      })
+      .catch((err) => {
+        if (!active) return;
+        console.error("Project Error:", err);
+        setNoData(true);
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   return (
@@ -64,7 +75,11 @@ export default function ProjectsSection() {
             {projectData.map((card) => (
               <div
                 key={card.id}
-                className="overflow-hidden rounded-lg bg-card"
+                className={`overflow-hidden rounded-lg bg-card ${
+                  String(selectedProjectId) === String(card.id)
+                    ? "ring-2 ring-[#3AB257]"
+                    : ""
+                }`}
               >
                 {/* Image */}
                 <div className="relative h-48 w-full overflow-hidden bg-muted md:h-64 rounded-lg">
@@ -83,9 +98,16 @@ export default function ProjectsSection() {
                 <div className="py-2 px-0">
                   {/* Title & Status */}
                   <div className="mb-3 flex items-center justify-between gap-3 mt-4">
-                    <h3 className="text-md md:text-lg lg:text-xl font-semibold text-[#293E52]">
-                      {card.title}
-                    </h3>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedProjectId(card.id)}
+                      aria-pressed={String(selectedProjectId) === String(card.id)}
+                      className="text-left"
+                    >
+                      <h3 className="text-md md:text-lg lg:text-xl font-semibold text-[#293E52]">
+                        {card.title}
+                      </h3>
+                    </button>
 
                     <div
                       className={`inline-block rounded-full p-[1.5px] ${
@@ -120,6 +142,22 @@ export default function ProjectsSection() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+        {!loading && !noData && (
+          <div className="space-y-8">
+            {/* <InteractiveProjectsMap
+              sectionTitle="Completed Projects"
+              projects={completedProjects}
+              selectedProjectId={selectedProjectId}
+              onSelectProject={setSelectedProjectId}
+            /> */}
+            <InteractiveProjectsMap
+              sectionTitle="Ongoing Projects"
+              projects={ongoingProjects}
+              selectedProjectId={selectedProjectId}
+              onSelectProject={setSelectedProjectId}
+            />
           </div>
         )}
       </div>
