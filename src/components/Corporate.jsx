@@ -18,7 +18,7 @@ export function TeamCard({ title, description, image, logo, website }) {
         />
 
         {/* Logo - Top Left */}
-        <div className="absolute top-0 left-0 z-10">
+        {logo && <div className="absolute top-0 left-0 z-10">
           <div
             className="relative bg-white/95 p-4 shadow-md"
             style={{
@@ -33,7 +33,7 @@ export function TeamCard({ title, description, image, logo, website }) {
               className="w-30 h-24 object-contain"
             />
           </div>
-        </div>
+        </div>}
 
         {/* Overlay Gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />

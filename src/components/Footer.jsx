@@ -198,7 +198,8 @@ export default function Footer() {
                     <p className="text-white text-sm font-medium">Email Us</p>
                     <a href="mailto:info@renfraenergy.com" className="text-gray-400 text-sm ">
                       info@gwind.in
-                    </a>{" "}
+                    </a>{" "} <br />
+                    <a href="mailto:marketing@gwind.in" className="text-gray-400 text-sm ">marketing@gwind.in</a>
                   </div>
                 </div>
               </div>

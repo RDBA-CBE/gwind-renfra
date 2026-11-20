@@ -17,6 +17,8 @@ export function Navbar() {
   const pathname = usePathname()
   const [tabsData, setTabsData] = useState([]);
   const [inventory,setInventory]= useState([])
+  const menuLinkClasses =
+    "relative inline-block text-sm font-medium transition-colors duration-300 ease-in-out after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-[#329ACD] after:transition-transform after:duration-300 after:ease-in-out"
 
 
   const fetchTabsData = async () => {
@@ -171,10 +173,10 @@ export function Navbar() {
                 >
                   <Link
                     href={item.href}
-                    className={`text-sm transition-colors ${
+                    className={`${menuLinkClasses} ${
                       isActive(item.href)
-                        ? "font-bold bg-gradient-to-r from-[#3AB257] to-[#329ACD] bg-clip-text text-transparent"
-                        : "text-[#293E52] hover:text-teal-600 font-medium"
+                        ? "font-bold text-[#329ACD] after:scale-x-100"
+                        : "text-[#293E52] hover:text-[#329ACD] hover:after:scale-x-100"
                     }`}
                   >
                     {item.label}
@@ -251,10 +253,10 @@ export function Navbar() {
                 >
                   <Link
                     href={item.href}
-                    className={`text-sm font-medium ${
+                    className={`${menuLinkClasses} ${
                       isActive(item.href)
-                        ? "font-bold bg-gradient-to-r from-teal-500 to-blue-600 bg-clip-text text-transparent"
-                        : "text-gray-700 hover:text-teal-600"
+                        ? "font-bold text-[#329ACD] after:scale-x-100"
+                        : "text-gray-700 hover:text-[#329ACD] hover:after:scale-x-100"
                     }`}
                   >
                     {item.label}

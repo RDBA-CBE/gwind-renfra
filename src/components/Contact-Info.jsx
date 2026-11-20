@@ -59,6 +59,8 @@ export function ContactInfo() {
     <div>
       <h3 className="font-semibold text-[#293E52]">Email Us</h3>
       <p className="text-[12px] sm:text-[12px] md:text-[12px] lg:text-[14px] text-muted-[#293E52]">info@gwind.in</p>
+      <p className="text-[12px] sm:text-[12px] md:text-[12px] lg:text-[14px] text-muted-[#293E52]">marketing@gwind.in</p>
+
     </div>
   </div>
 </div>

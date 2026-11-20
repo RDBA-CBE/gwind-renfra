@@ -66,7 +66,7 @@ export default function StatsSection() {
           {showMore && (
             <>
               {/* <p className="text-[#293E52] leading-relaxed mb-4 text-sm sm:text-sm md:text-base lg:text-base">
-                GWind was acquired by Speed Team Group of Companies in 2017, a leader in the renewable energy services
+                GWind was acquired by  of Companies in 2017, a leader in the renewable energy services
                 space. This strategic acquisition strengthened GWind’s technical capabilities, workforce expertise, and
                 resource pool, enabling us to expand our portfolio from basic turbine servicing to comprehensive O&M
                 contracts, emergency maintenance, advanced inspections, and major component replacements.
